@@ -1,25 +1,19 @@
 'use client';
-import { useState } from 'react';
+
+import { useGrid } from '@/context/GridContext';
 import { GridProvider } from '@/context/GridContext';
 import { GridItemProvider } from '@/context/GridItemContext';
-import GridConfig from '@/components/grid/GridConfig';
 import MusicGrid from '@/components/grid/MusicGrid';
 import SearchBar from '@/components/search/SearchBar';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
-  const [showConfig, setShowConfig] = useState(true);
-  const [hasCreatedGrid, setHasCreatedGrid] = useState(false);
-
-  const handleGridCreated = () => {
-    setShowConfig(false);
-    setHasCreatedGrid(true);
-  };
-
+export default function GridPage() {
+  const router = useRouter();
+  
   return (
-    <GridProvider>
-      <GridItemProvider>
-        <div className="min-h-[100dvh] w-full relative overflow-hidden bg-gradient-to-br from-[#161616] via-[#1a1a1a] to-[#212121]">
+    <GridItemProvider>
+      <div className="min-h-[100dvh] w-full relative overflow-hidden bg-gradient-to-br from-[#161616] via-[#1a1a1a] to-[#212121]">
           {/* Grain Overlay */}
           <div className="grain-overlay fixed inset-0 pointer-events-none z-0 opacity-20"></div>
           
@@ -34,21 +28,16 @@ export default function Home() {
           
           <div className="relative z-10 min-h-[100dvh] flex flex-col justify-center items-center py-10 px-4">
             <div className="max-w-[1200px] w-full mx-auto">
-              {showConfig ? (
-                <GridConfig onGridCreated={handleGridCreated} />
-              ) : (
-                <div className="flex flex-col items-center gap-6">
-                  <div className="w-full">
-                    <MusicGrid />
-                  </div>
-                  
+              <div className="flex flex-col items-center gap-6">
+                <div className="w-full">
+                  <MusicGrid />
                 </div>
-              )}
+                
+              </div>
             </div>
 
           </div>
         </div>
       </GridItemProvider>
-    </GridProvider>
   );
 }
