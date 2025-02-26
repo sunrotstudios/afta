@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 import { Share2, Download } from 'lucide-react';
 
 export default function Grid() {
-  const { grid, gridType, title } = useGrid();
+  const { grid } = useGrid();
+  const { type: gridType, title } = grid;
   
-  if (!grid || grid.length === 0) {
+  if (!grid || !grid.items || grid.items.length === 0) {
     return null;
   }
   
@@ -45,19 +46,25 @@ export default function Grid() {
       </div>
       
       <div className="grid grid-cols-3 gap-3 md:gap-4">
-        {grid.map((row, rowIndex) =>
-          row.map((item, colIndex) => (
-            <GridItem
-              key={`${rowIndex}-${colIndex}`}
-              row={rowIndex}
-              column={colIndex}
-              gridType={gridType}
-              itemId={item.id}
-              imageUrl={item.imageUrl}
-              title={item.title}
-              subtitle={item.subtitle}
-            />
-          ))
+        {/* Create a 2D array from the 1D items array */}
+        {Array.from({ length: grid.rows }).map((_, rowIndex) =>
+          Array.from({ length: grid.columns }).map((_, colIndex) => {
+            const index = rowIndex * grid.columns + colIndex;
+            const item = grid.items[index]?.item;
+            
+            return (
+              <GridItem
+                key={`${rowIndex}-${colIndex}`}
+                row={rowIndex}
+                column={colIndex}
+                gridType={gridType}
+                itemId={item?.id}
+                imageUrl={item?.imageUrl}
+                title={item?.name}
+                subtitle={gridType === 'album' ? item?.artists : undefined}
+              />
+            );
+          })
         )}
       </div>
       

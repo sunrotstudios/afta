@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState, ReactNode, useCallback } fr
 import { GridData, GridItem } from '@/types/grid';
 import { v4 as uuidv4 } from 'uuid';
 import { SearchResultItem } from '@/lib/api/lastfm';
-import { useRouter } from 'next/navigation';
 
 interface GridContextType {
   grid: GridData;
@@ -27,7 +26,6 @@ const GridContext = createContext<GridContextType | undefined>(undefined);
 
 export function GridProvider({ children }: { children: ReactNode }) {
   const [grid, setGrid] = useState<GridData>(defaultGrid);
-  const router = useRouter();
 
   // Create a new grid
   const createGrid = useCallback((rows: number, columns: number, type: 'artist' | 'album', title: string) => {

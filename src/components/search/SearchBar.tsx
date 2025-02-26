@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Array<{id: string; name: string; image: string; subtitle: string}>>([]);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -126,7 +126,7 @@ export default function SearchBar() {
             <div>
               <h3 className="font-bold mb-2">Results</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {results.map((result: any) => (
+                {results.map((result) => (
                   <div 
                     key={result.id}
                     className="border-2 border-black rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-100 transition-colors"
@@ -137,8 +137,9 @@ export default function SearchBar() {
                         updateGridItem(emptyIndex, {
                           id: result.id,
                           name: result.name,
-                          image: result.image,
-                          artist: result.subtitle
+                          imageUrl: result.image,
+                          type: grid.type,
+                          artists: grid.type === 'album' ? result.subtitle : undefined
                         });
                         setShowResults(false);
                         setQuery('');

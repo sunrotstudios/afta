@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { useGrid } from '@/context/GridContext';
-import { motion as m, type HTMLMotionProps } from 'framer-motion';
+import { motion as m } from 'framer-motion';
 import { Download, Share2, Check } from 'lucide-react';
 import GridItem from './GridItem';
 import * as htmlToImage from 'html-to-image';
@@ -119,7 +119,7 @@ export default function MusicGrid() {
   };
 
   // Create a 2D array from the 1D items array
-  const gridArray: any[][] = [];
+  const gridArray: Array<Array<typeof grid.items[0]>> = [];
   for (let i = 0; i < grid.rows; i++) {
     gridArray[i] = [];
     for (let j = 0; j < grid.columns; j++) {

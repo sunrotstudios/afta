@@ -43,17 +43,17 @@ export async function searchAlbums(query: string): Promise<SearchResultItem[]> {
       return [];
     }
     
-    return response.results.albummatches.album.map((album: any) => {
+    return response.results.albummatches.album.map((album: Record<string, unknown>) => {
       // Handle different image formats
       let imageUrl = '/placeholder.png';
       
       if (album.image && Array.isArray(album.image)) {
         // Find the largest available image (extralarge or large preferred)
-        const extraLargeImg = album.image.find((img: any) => img.size === 'extralarge');
+        const extraLargeImg = album.image.find((img: Record<string, unknown>) => img.size === 'extralarge');
         if (extraLargeImg && extraLargeImg['#text']) {
           imageUrl = extraLargeImg['#text'];
         } else {
-          const largeImg = album.image.find((img: any) => img.size === 'large');
+          const largeImg = album.image.find((img: Record<string, unknown>) => img.size === 'large');
           if (largeImg && largeImg['#text']) {
             imageUrl = largeImg['#text'];
           }
@@ -67,7 +67,7 @@ export async function searchAlbums(query: string): Promise<SearchResultItem[]> {
         type: 'album' as const,
         artists: album.artist,
       };
-    }).filter((album: any) => album.name && album.imageUrl !== '/placeholder.png'); // Filter out any invalid entries
+    }).filter((album: SearchResultItem) => album.name && album.imageUrl !== '/placeholder.png'); // Filter out any invalid entries
   } catch (error) {
     console.error('Error searching for albums:', error);
     return [];
@@ -77,22 +77,39 @@ export async function searchAlbums(query: string): Promise<SearchResultItem[]> {
 // Get info about an artist
 export async function getArtistInfo(name: string): Promise<SearchResultItem | null> {
   try {
-    // For development or if no API key, use mock data
+    // For development or if no API key, return mock data
     if (!process.env.NEXT_PUBLIC_LASTFM_API_KEY) {
-      const mockArtist = mockArtists.find(artist => artist.name === name);
-      return mockArtist || null;
+      // Create a simple mock artist
+      const mockArtist: SearchResultItem = {
+        id: name,
+        name: name,
+        imageUrl: '/placeholder.png',
+        type: 'artist',
+      };
+      return mockArtist;
     }
     
-    const response = await lastfm.artistGetInfo({ artist: name });
+    // This function would use a Last.fm client library 
+    // For now let's use our own fetch function to get artist info
+    const response = await lastFmFetch('artist.getInfo', { artist: name });
     
     if (!response.artist) {
       return null;
     }
     
+    // Get the best image from the response
+    let imageUrl = '/placeholder.png';
+    if (response.artist.image && Array.isArray(response.artist.image)) {
+      const extraLargeImg = response.artist.image.find((img: Record<string, unknown>) => img.size === 'extralarge');
+      if (extraLargeImg && extraLargeImg['#text']) {
+        imageUrl = extraLargeImg['#text'];
+      }
+    }
+    
     return {
       id: response.artist.name,
       name: response.artist.name,
-      imageUrl: getBestImage(response.artist.image),
+      imageUrl,
       type: 'artist',
     };
   } catch (error) {
@@ -104,22 +121,39 @@ export async function getArtistInfo(name: string): Promise<SearchResultItem | nu
 // Get info about an album
 export async function getAlbumInfo(artist: string, album: string): Promise<SearchResultItem | null> {
   try {
-    // For development or if no API key, use mock data
+    // For development or if no API key, return mock data
     if (!process.env.NEXT_PUBLIC_LASTFM_API_KEY) {
-      const mockAlbum = mockAlbums.find(a => a.name === album && a.artists === artist);
-      return mockAlbum || null;
+      // Create a simple mock album
+      const mockAlbum: SearchResultItem = {
+        id: `${artist}-${album}`,
+        name: album,
+        imageUrl: '/placeholder.png',
+        type: 'album',
+        artists: artist
+      };
+      return mockAlbum;
     }
     
-    const response = await lastfm.albumGetInfo({ artist, album });
+    // Using our own fetch function to get album info
+    const response = await lastFmFetch('album.getInfo', { artist, album });
     
     if (!response.album) {
       return null;
     }
     
+    // Get the best image from the response
+    let imageUrl = '/placeholder.png';
+    if (response.album.image && Array.isArray(response.album.image)) {
+      const extraLargeImg = response.album.image.find((img: Record<string, unknown>) => img.size === 'extralarge');
+      if (extraLargeImg && extraLargeImg['#text']) {
+        imageUrl = extraLargeImg['#text'];
+      }
+    }
+    
     return {
       id: `${response.album.artist}-${response.album.name}`,
       name: response.album.name,
-      imageUrl: getBestImage(response.album.image),
+      imageUrl,
       type: 'album',
       artists: response.album.artist,
     };

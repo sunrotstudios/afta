@@ -1,15 +1,9 @@
 'use client';
 
-import { useGrid } from '@/context/GridContext';
-import { GridProvider } from '@/context/GridContext';
 import { GridItemProvider } from '@/context/GridItemContext';
 import MusicGrid from '@/components/grid/MusicGrid';
-import SearchBar from '@/components/search/SearchBar';
-import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 
 export default function GridPage() {
-  const router = useRouter();
   
   return (
     <GridItemProvider>

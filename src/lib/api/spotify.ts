@@ -17,12 +17,21 @@ export async function searchArtists(query: string): Promise<SearchResultItem[]> 
       return [];
     }
     
-    return data.artists.items.map((artist: any) => ({
-      id: artist.id,
-      name: artist.name,
-      imageUrl: artist.images && artist.images.length ? artist.images[0].url : '/placeholder.png',
-      type: 'artist' as const,
-    })).filter((artist: any) => artist.name && artist.imageUrl !== '/placeholder.png');
+    return data.artists.items.map((artist: Record<string, unknown>) => {
+      // Safe access to nested properties with proper type checking
+      let imageUrl = '/placeholder.png';
+      if (artist.images && Array.isArray(artist.images) && artist.images.length > 0 && 
+          typeof artist.images[0] === 'object' && artist.images[0] !== null && 'url' in artist.images[0]) {
+        imageUrl = artist.images[0].url as string;
+      }
+      
+      return {
+        id: artist.id as string,
+        name: artist.name as string,
+        imageUrl,
+        type: 'artist' as const,
+      };
+    }).filter((artist: SearchResultItem) => artist.name && artist.imageUrl !== '/placeholder.png');
   } catch (error) {
     console.error('Error searching for artists:', error);
     return [];

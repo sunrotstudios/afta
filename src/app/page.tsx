@@ -4,16 +4,12 @@ import { GridProvider } from '@/context/GridContext';
 import { GridItemProvider } from '@/context/GridItemContext';
 import GridConfig from '@/components/grid/GridConfig';
 import MusicGrid from '@/components/grid/MusicGrid';
-import SearchBar from '@/components/search/SearchBar';
-import { motion } from 'framer-motion';
 
 export default function Home() {
   const [showConfig, setShowConfig] = useState(true);
-  const [hasCreatedGrid, setHasCreatedGrid] = useState(false);
 
   const handleGridCreated = () => {
     setShowConfig(false);
-    setHasCreatedGrid(true);
   };
 
   return (
