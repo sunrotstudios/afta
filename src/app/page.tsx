@@ -1,50 +1,125 @@
 'use client';
-import { useState } from 'react';
-import { GridProvider } from '@/context/GridContext';
-import { GridItemProvider } from '@/context/GridItemContext';
-import GridConfig from '@/components/grid/GridConfig';
-import MusicGrid from '@/components/grid/MusicGrid';
+
+import { motion } from 'framer-motion';
+import { Calendar, Users, MessageCircle, List, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+
+const features = [
+  {
+    icon: Calendar,
+    title: 'Shared Calendar',
+    description: 'Sync and share calendars with friends. See everyone\'s availability at a glance.',
+  },
+  {
+    icon: Users,
+    title: 'Friend Groups',
+    description: 'Organize events with different friend circles. Keep your plans organized.',
+  },
+  {
+    icon: MessageCircle,
+    title: 'Group Chat',
+    description: 'Built-in chat for every plan. Coordinate without switching apps.',
+  },
+  {
+    icon: List,
+    title: 'Bucket Lists',
+    description: 'Track things you want to do together. Turn ideas into plans.',
+  },
+];
 
 export default function Home() {
-  const [showConfig, setShowConfig] = useState(true);
-
-  const handleGridCreated = () => {
-    setShowConfig(false);
-  };
-
   return (
-    <GridProvider>
-      <GridItemProvider>
-        <div className="min-h-[100dvh] w-full relative overflow-hidden bg-gradient-to-br from-[#161616] via-[#1a1a1a] to-[#212121]">
-          {/* Grain Overlay */}
-          <div className="grain-overlay fixed inset-0 pointer-events-none z-0 opacity-20"></div>
-          
-          {/* Decorative Background Elements */}
-          <div className="fixed inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
-            <div className="absolute rounded-full blur-3xl" style={{ width: '300px', height: '300px', backgroundColor: 'rgba(168, 85, 247, 0.2)', left: '20%', top: '30%', transform: 'translate(-50%, -50%)', animation: 'float 25s ease-in-out infinite alternate' }}></div>
-            <div className="absolute rounded-full blur-3xl" style={{ width: '250px', height: '250px', backgroundColor: 'rgba(245, 158, 11, 0.15)', left: '70%', top: '20%', transform: 'translate(-50%, -50%)', animation: 'float 30s ease-in-out infinite alternate' }}></div>
-            <div className="absolute rounded-full blur-3xl" style={{ width: '400px', height: '400px', backgroundColor: 'rgba(168, 85, 247, 0.2)', left: '80%', top: '60%', transform: 'translate(-50%, -50%)', animation: 'float 23s ease-in-out infinite alternate' }}></div>
-            <div className="absolute rounded-full blur-3xl" style={{ width: '350px', height: '350px', backgroundColor: 'rgba(245, 158, 11, 0.15)', left: '30%', top: '70%', transform: 'translate(-50%, -50%)', animation: 'float 28s ease-in-out infinite alternate' }}></div>
-            <div className="absolute rounded-full blur-3xl" style={{ width: '280px', height: '280px', backgroundColor: 'rgba(168, 85, 247, 0.2)', left: '10%', top: '10%', transform: 'translate(-50%, -50%)', animation: 'float 32s ease-in-out infinite alternate' }}></div>
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-primary-50/30 to-neutral-50">
+      {/* Hero Section */}
+      <div className="container mx-auto px-6 pt-20 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-3xl mx-auto"
+        >
+          <h1 className="text-5xl md:text-6xl font-bold text-neutral-900 mb-6">
+            Social planning,{' '}
+            <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+              made simple
+            </span>
+          </h1>
+          <p className="text-xl text-neutral-600 mb-8">
+            The sleek calendar app designed for friends. Plan together, chat together, stay connected.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Link href="/calendar">
+              <Button size="lg">
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="/calendar">
+              <Button variant="secondary" size="lg">
+                View Demo
+              </Button>
+            </Link>
           </div>
-          
-          <div className="relative z-10 min-h-[100dvh] flex flex-col justify-center items-center py-10 px-4">
-            <div className="max-w-[1200px] w-full mx-auto">
-              {showConfig ? (
-                <GridConfig onGridCreated={handleGridCreated} />
-              ) : (
-                <div className="flex flex-col items-center gap-6">
-                  <div className="w-full">
-                    <MusicGrid />
-                  </div>
-                  
-                </div>
-              )}
-            </div>
+        </motion.div>
 
-          </div>
-        </div>
-      </GridItemProvider>
-    </GridProvider>
+        {/* Features Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-20 max-w-5xl mx-auto"
+        >
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+              >
+                <Card hoverable className="p-6 h-full">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                      <Icon className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+                        {feature.title}
+                      </h3>
+                      <p className="text-neutral-600">{feature.description}</p>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mt-20 text-center"
+        >
+          <Card className="p-12 max-w-3xl mx-auto bg-gradient-to-r from-primary-600 to-primary-500">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Ready to start planning?
+            </h2>
+            <p className="text-primary-100 mb-6 text-lg">
+              Join thousands of friends making plans together.
+            </p>
+            <Link href="/calendar">
+              <Button variant="secondary" size="lg">
+                Launch Calendar
+              </Button>
+            </Link>
+          </Card>
+        </motion.div>
+      </div>
+    </div>
   );
 }
