@@ -3,40 +3,41 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
-  }
-
   * {
-    @apply border-neutral-200;
+    @apply border-black;
   }
 
   body {
-    @apply bg-neutral-50 text-neutral-900;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-white text-black;
+    font-feature-settings: "kern" 1, "liga" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
   }
 }
 
-/* Custom scrollbar */
+/* Brutalist scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-neutral-100;
+  @apply bg-gray-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-300 rounded-full;
+  @apply bg-black;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-neutral-400;
+  @apply bg-gray-800;
 }
 
-/* Selection */
+/* High contrast selection */
 ::selection {
-  @apply bg-primary-200 text-primary-900;
+  @apply bg-black text-white;
 }

@@ -2,21 +2,21 @@ import { HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'flat' | 'bordered';
+  variant?: 'default' | 'outline' | 'brutal';
   hoverable?: boolean;
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', hoverable = false, children, ...props }, ref) => {
-    const baseStyles = 'rounded-2xl transition-all duration-200';
+    const baseStyles = 'transition-all duration-100';
 
     const variants = {
-      default: 'bg-white shadow-soft',
-      flat: 'bg-neutral-50',
-      bordered: 'bg-white border border-neutral-200',
+      default: 'bg-white border-2 border-black',
+      outline: 'bg-transparent border-2 border-black',
+      brutal: 'bg-white border-3 border-black shadow-brutal',
     };
 
-    const hoverStyles = hoverable ? 'hover:shadow-soft-lg hover:-translate-y-0.5 cursor-pointer' : '';
+    const hoverStyles = hoverable ? 'hover:shadow-brutal hover:translate-x-0.5 hover:translate-y-0.5 cursor-pointer' : '';
 
     return (
       <div
@@ -34,7 +34,7 @@ Card.displayName = 'Card';
 
 export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('p-6 pb-4', className)} {...props} />
+    <div ref={ref} className={cn('p-6 border-b-2 border-black', className)} {...props} />
   )
 );
 
@@ -42,7 +42,7 @@ CardHeader.displayName = 'CardHeader';
 
 export const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+    <div ref={ref} className={cn('p-6', className)} {...props} />
   )
 );
 
@@ -50,7 +50,7 @@ CardContent.displayName = 'CardContent';
 
 export const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('p-6 pt-4', className)} {...props} />
+    <div ref={ref} className={cn('p-6 border-t-2 border-black', className)} {...props} />
   )
 );
 

@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Calendar, Users, MessageCircle, List, ArrowRight } from 'lucide-react';
+import { Calendar, Users, MessageCircle, List } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -10,107 +9,82 @@ const features = [
   {
     icon: Calendar,
     title: 'Shared Calendar',
-    description: 'Sync and share calendars with friends. See everyone\'s availability at a glance.',
+    description: 'Sync and share calendars with friends.',
   },
   {
     icon: Users,
     title: 'Friend Groups',
-    description: 'Organize events with different friend circles. Keep your plans organized.',
+    description: 'Organize events with different circles.',
   },
   {
     icon: MessageCircle,
     title: 'Group Chat',
-    description: 'Built-in chat for every plan. Coordinate without switching apps.',
+    description: 'Built-in chat for every plan.',
   },
   {
     icon: List,
     title: 'Bucket Lists',
-    description: 'Track things you want to do together. Turn ideas into plans.',
+    description: 'Track things to do together.',
   },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-primary-50/30 to-neutral-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="container mx-auto px-6 pt-20 pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold text-neutral-900 mb-6">
-            Social planning,{' '}
-            <span className="bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
-              made simple
-            </span>
+      <div className="container mx-auto px-8 py-32">
+        <div className="max-w-5xl">
+          <h1 className="text-7xl md:text-9xl font-bold uppercase tracking-tighter leading-none mb-8">
+            Social<br/>
+            Planning
           </h1>
-          <p className="text-xl text-neutral-600 mb-8">
-            The sleek calendar app designed for friends. Plan together, chat together, stay connected.
+          <p className="text-2xl font-bold uppercase tracking-wide mb-12 max-w-2xl">
+            The calendar app for friends. Plan together. Chat together. Stay connected.
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4">
             <Link href="/calendar">
               <Button size="lg">
-                Get Started
-                <ArrowRight className="ml-2 h-5 w-5" />
+                Start Now
               </Button>
             </Link>
             <Link href="/calendar">
-              <Button variant="secondary" size="lg">
+              <Button variant="outline" size="lg">
                 View Demo
               </Button>
             </Link>
           </div>
-        </motion.div>
+        </div>
 
         {/* Features Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-20 max-w-5xl mx-auto"
-        >
-          {features.map((feature, index) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-32 max-w-5xl">
+          {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-              >
-                <Card hoverable className="p-6 h-full">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-                      <Icon className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-neutral-900 mb-2">
-                        {feature.title}
-                      </h3>
-                      <p className="text-neutral-600">{feature.description}</p>
-                    </div>
+              <Card key={feature.title} className="p-8">
+                <div className="flex items-start gap-6">
+                  <div className="flex-shrink-0 w-16 h-16 bg-black flex items-center justify-center">
+                    <Icon className="h-8 w-8 text-white" strokeWidth={2.5} />
                   </div>
-                </Card>
-              </motion.div>
+                  <div>
+                    <h3 className="text-xl font-bold uppercase tracking-wide mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-base text-gray-700">{feature.description}</p>
+                  </div>
+                </div>
+              </Card>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-20 text-center"
-        >
-          <Card className="p-12 max-w-3xl mx-auto bg-gradient-to-r from-primary-600 to-primary-500">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to start planning?
+        <div className="mt-32">
+          <Card className="p-16 bg-black text-white border-black">
+            <h2 className="text-5xl font-bold uppercase tracking-tighter mb-6">
+              Ready to start?
             </h2>
-            <p className="text-primary-100 mb-6 text-lg">
-              Join thousands of friends making plans together.
+            <p className="text-xl font-bold uppercase tracking-wide mb-8 text-gray-300">
+              Join thousands making plans together.
             </p>
             <Link href="/calendar">
               <Button variant="secondary" size="lg">
@@ -118,7 +92,7 @@ export default function Home() {
               </Button>
             </Link>
           </Card>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
