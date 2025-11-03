@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { GridProvider } from "../context/GridContext";
 
 export const metadata: Metadata = {
-  title: "Cratify",
-  description: "the music nerds little grid maker",
+  title: "Howbout - Social Calendar",
+  description: "A sleek, modern social calendar app for planning with friends",
 };
 
 export default function RootLayout({
@@ -14,15 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* Custom font preload */}
-        <link rel="preload" href="/fonts/Mondwest.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-      </head>
-      <body className="custom-font">
-        <div className="noise-overlay"></div>
-        <GridProvider>
-          {children}
-        </GridProvider>
+      <body className="font-sans antialiased">
+        {children}
       </body>
     </html>
   );
