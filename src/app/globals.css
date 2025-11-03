@@ -4,40 +4,52 @@
 
 @layer base {
   * {
-    @apply border-black;
+    @apply border-charcoal-200;
   }
 
   body {
-    @apply bg-white text-black;
-    font-feature-settings: "kern" 1, "liga" 1;
+    @apply bg-charcoal-50 text-charcoal-950;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    @apply font-semibold tracking-tight;
   }
 }
 
-/* Brutalist scrollbar */
+/* Refined scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+  @apply bg-charcoal-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-black;
+  @apply bg-charcoal-300 rounded-full;
+  transition: background-color 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-800;
+  @apply bg-charcoal-400;
 }
 
-/* High contrast selection */
+/* Subtle selection */
 ::selection {
-  @apply bg-black text-white;
+  @apply bg-accent-200 text-accent-900;
+}
+
+/* Smooth transitions by default */
+* {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus states */
+:focus-visible {
+  @apply outline-none ring-2 ring-accent-500 ring-offset-2 ring-offset-charcoal-50;
 }

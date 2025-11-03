@@ -23,7 +23,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       <div
         ref={ref}
         className={cn(
-          'relative inline-flex items-center justify-center overflow-hidden border-2 border-black bg-white text-black font-bold',
+          'relative inline-flex items-center justify-center overflow-hidden rounded-full bg-accent-100 text-accent-700 font-medium border border-accent-200 transition-all duration-200',
           sizes[size],
           className
         )}
@@ -32,7 +32,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         {src ? (
           <img src={src} alt={alt || name} className="h-full w-full object-cover" />
         ) : (
-          <span className="uppercase">{initials}</span>
+          <span>{initials}</span>
         )}
       </div>
     );

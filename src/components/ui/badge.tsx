@@ -2,22 +2,22 @@ import { HTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  variant?: 'default' | 'outline' | 'solid';
+  variant?: 'default' | 'accent' | 'outline';
 }
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant = 'default', children, ...props }, ref) => {
     const variants = {
-      default: 'bg-gray-100 text-black border-2 border-black',
-      outline: 'bg-white text-black border-2 border-black',
-      solid: 'bg-black text-white border-2 border-black',
+      default: 'bg-charcoal-100 text-charcoal-700 border border-charcoal-200',
+      accent: 'bg-accent-100 text-accent-700 border border-accent-200',
+      outline: 'bg-transparent text-charcoal-700 border border-charcoal-300',
     };
 
     return (
       <span
         ref={ref}
         className={cn(
-          'inline-flex items-center px-2 py-1 text-xs font-bold uppercase tracking-wide',
+          'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors duration-200',
           variants[variant],
           className
         )}

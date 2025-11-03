@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Howbout - Social Calendar",
-  description: "A sleek, modern social calendar app for planning with friends",
+  title: "afta - You down?",
+  description: "The social calendar that helps friends actually sync up. Make plans that happen.",
 };
 
 export default function RootLayout({
